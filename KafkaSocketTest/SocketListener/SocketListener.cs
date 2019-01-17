@@ -32,13 +32,16 @@ namespace KafkaSocketTest.SocketListener
            var symbolTtradeSubscription = _socketClient.SubscribeToTradesStream("WAVESBTC", _ => ProduceEvent(_));
 
         }
-
-        public void ProduceEvent(BinanceStreamTrade e)
-        {           
+        public class BinanceTrade:BinanceStreamTrade
+        {
             
+        }
+        public void ProduceEvent(BinanceStreamTrade e)
+        {                       
+
             _producer.BeginProduce("socket", new Message<Null, string>
             {
-                Value = JsonConvert.SerializeObject(e)
+                Value = JsonConvert.SerializeObject((BinanceTrade)e)
             }, handler);
             // wait for up to 10 seconds for any inflight messages to be delivered.
             // p.Flush(TimeSpan.FromSeconds(10));

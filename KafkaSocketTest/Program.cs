@@ -1,5 +1,6 @@
 ﻿using Confluent.Kafka;
 using System;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace KafkaSocketTest
@@ -8,6 +9,8 @@ namespace KafkaSocketTest
     {
         public static void Main(string[] args)
         {
+            Console.WriteLine("Starting...");
+            Thread.Sleep(300);
             var t = new SocketListener.SocketListener();
             t.SubcribeToSocket("WAVESBTC");
             Consume();
@@ -19,7 +22,7 @@ namespace KafkaSocketTest
         {
             var conf = new ConsumerConfig
             {
-                GroupId = "test-consumer-group",
+                GroupId = "socket-consumer-group",
                 BootstrapServers = "localhost:9092",
                 // Note: The AutoOffsetReset property determines the start offset in the event
                 // there are not yet any committed offsets for the consumer group for the
@@ -31,6 +34,7 @@ namespace KafkaSocketTest
 
             using (var c = new Consumer<Ignore, string>(conf))
             {
+                Console.WriteLine("Consumer started");
                 c.Subscribe("socket");
 
                 bool consuming = true;
@@ -45,14 +49,13 @@ namespace KafkaSocketTest
                     try
                     {
                         var cr = c.Consume();
-                        Console.WriteLine($"Consumed message '{cr.Message}'  at: '{cr.Value}'.");
+                        Console.WriteLine($"{cr.Value}");
                     }
                     catch (ConsumeException e)
                     {
                         Console.WriteLine($"Error occured: {e.Error.Reason}");
                     }
                 }
-
                 // Ensure the consumer leaves the group cleanly and final offsets are committed.
                 c.Close();
             }
