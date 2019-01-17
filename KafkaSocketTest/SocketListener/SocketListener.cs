@@ -28,13 +28,14 @@ namespace KafkaSocketTest.SocketListener
 
         public void SubcribeToSocket(string pair)
         {
-            var symbolTickerSubscription = _socketClient.SubscribeToSymbolTicker("WAVESBTC", _ => ProduceEvent(_));
-            var symbolTtradeSubscription = _socketClient.SubscribeToTradesStream("WAVESBTC", _ => ProduceEvent(_));
+          //  var symbolTickerSubscription = _socketClient.SubscribeToSymbolTicker("WAVESBTC", _ => ProduceEvent(_));
+           var symbolTtradeSubscription = _socketClient.SubscribeToTradesStream("WAVESBTC", _ => ProduceEvent(_));
 
         }
 
         public void ProduceEvent(BinanceStreamTrade e)
-        {            
+        {           
+            
             _producer.BeginProduce("socket", new Message<Null, string>
             {
                 Value = JsonConvert.SerializeObject(e)

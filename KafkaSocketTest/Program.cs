@@ -40,6 +40,8 @@ namespace KafkaSocketTest
 
                 while (consuming)
                 {
+                    if (Console.ReadKey().Key == ConsoleKey.Escape)
+                        break;                        
                     try
                     {
                         var cr = c.Consume();
