@@ -31,7 +31,7 @@ namespace KafkaSocketTest
 
             using (var c = new Consumer<Ignore, string>(conf))
             {
-                c.Subscribe("my-topic");
+                c.Subscribe("socket");
 
                 bool consuming = true;
                 // The client will automatically recover from non-fatal errors. You typically
@@ -43,7 +43,7 @@ namespace KafkaSocketTest
                     try
                     {
                         var cr = c.Consume();
-                        Console.WriteLine($"Consumed message '{cr.Value}' at: '{cr.TopicPartitionOffset}'.");
+                        Console.WriteLine($"Consumed message '{cr.Message}'  at: '{cr.Value}'.");
                     }
                     catch (ConsumeException e)
                     {
