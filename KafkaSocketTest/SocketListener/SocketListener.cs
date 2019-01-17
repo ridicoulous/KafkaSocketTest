@@ -31,30 +31,23 @@ namespace KafkaSocketTest.SocketListener
                 Console.WriteLine(symbolTtradeSubscription.Data.Id);
             else
                 Console.WriteLine(symbolTtradeSubscription.Error.Message);
-        }
-        public class BinanceTrade : BinanceStreamTrade
-        {
-
-        }
+        }       
         public void ProduceEvent(BinanceStreamTrade e)
-        {            
-            _producer.BeginProduce("socket", new Message<Null, string>
+        {
+            try
             {
-                Value = JsonConvert.SerializeObject((BinanceTrade)e)
-            }, handler);
-            // wait for up to 10 seconds for any inflight messages to be delivered.
-             _producer.Flush(TimeSpan.FromSeconds(10));
+                Console.WriteLine("catched");
+                _producer.BeginProduce("socket", new Message<Null, string>
+                {
+                    Value = JsonConvert.SerializeObject(e)
+                }, handler);
+                _producer.Flush(TimeSpan.FromSeconds(10));
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());                
+            }
         }
-        //public void ProduceEvent(BinanceStreamTick e)
-        //{   
-
-        //    _producer.BeginProduce("socket", new Message<Null, string>
-        //    {
-        //        Value = JsonConvert.SerializeObject(e)
-        //    }, handler);
-        //    // wait for up to 10 seconds for any inflight messages to be delivered.
-        //    // p.Flush(TimeSpan.FromSeconds(10));
-        //}
 
 
 
