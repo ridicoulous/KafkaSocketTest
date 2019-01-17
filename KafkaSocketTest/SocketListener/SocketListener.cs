@@ -29,7 +29,7 @@ namespace KafkaSocketTest.SocketListener
         public void SubcribeToSocket(string pair)
         {
           //  var symbolTickerSubscription = _socketClient.SubscribeToSymbolTicker("WAVESBTC", _ => ProduceEvent(_));
-           var symbolTtradeSubscription = _socketClient.SubscribeToTradesStream("WAVESBTC", _ => ProduceEvent(_));
+           var symbolTtradeSubscription = _socketClient.SubscribeToTradesStream(pair, _ => ProduceEvent(_));
 
         }
         public class BinanceTrade:BinanceStreamTrade
@@ -38,7 +38,6 @@ namespace KafkaSocketTest.SocketListener
         }
         public void ProduceEvent(BinanceStreamTrade e)
         {                       
-
             _producer.BeginProduce("socket", new Message<Null, string>
             {
                 Value = JsonConvert.SerializeObject((BinanceTrade)e)
