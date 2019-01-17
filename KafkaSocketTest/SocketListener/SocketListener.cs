@@ -37,13 +37,13 @@ namespace KafkaSocketTest.SocketListener
 
         }
         public void ProduceEvent(BinanceStreamTrade e)
-        {
+        {            
             _producer.BeginProduce("socket", new Message<Null, string>
             {
                 Value = JsonConvert.SerializeObject((BinanceTrade)e)
             }, handler);
             // wait for up to 10 seconds for any inflight messages to be delivered.
-            // p.Flush(TimeSpan.FromSeconds(10));
+             _producer.Flush(TimeSpan.FromSeconds(10));
         }
         //public void ProduceEvent(BinanceStreamTick e)
         //{   
