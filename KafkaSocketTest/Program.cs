@@ -8,7 +8,8 @@ namespace KafkaSocketTest
     {
         public static void Main(string[] args)
         {
-            
+            var t = new SocketListener.SocketListener();
+            t.SubcribeToSocket("WAVESBTC");
             Consume();
             Console.WriteLine("Consumed... PAK, pls");
             Console.ReadLine();

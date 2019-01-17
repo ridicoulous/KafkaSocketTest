@@ -22,6 +22,7 @@ namespace KafkaSocketTest.SocketListener
             Thread.CurrentThread.CurrentCulture = CultureInfo.GetCultureInfo("en-US");
             _apiClient = new BinanceClient(new BinanceClientOptions() { ApiCredentials = new CryptoExchange.Net.Authentication.ApiCredentials(key, secret) });
             _socketClient = new BinanceSocketClient(new BinanceSocketClientOptions() { ApiCredentials = new CryptoExchange.Net.Authentication.ApiCredentials(key, secret) });
+            
 
         }
 
