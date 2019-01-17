@@ -22,22 +22,22 @@ namespace KafkaSocketTest.SocketListener
             Thread.CurrentThread.CurrentCulture = CultureInfo.GetCultureInfo("en-US");
             _apiClient = new BinanceClient(new BinanceClientOptions() { ApiCredentials = new CryptoExchange.Net.Authentication.ApiCredentials(key, secret) });
             _socketClient = new BinanceSocketClient(new BinanceSocketClientOptions() { ApiCredentials = new CryptoExchange.Net.Authentication.ApiCredentials(key, secret) });
-            
-
         }
 
-        public void SubcribeToSocket(string pair)
+        public void Subcribe(string pair)
         {
-          //  var symbolTickerSubscription = _socketClient.SubscribeToSymbolTicker("WAVESBTC", _ => ProduceEvent(_));
-           var symbolTtradeSubscription = _socketClient.SubscribeToTradesStream(pair, _ => ProduceEvent(_));
-
+            var symbolTtradeSubscription = _socketClient.SubscribeToTradesStream(pair, _ => ProduceEvent(_));
+            if (symbolTtradeSubscription.Success)
+                Console.WriteLine(symbolTtradeSubscription.Data.Id);
+            else
+                Console.WriteLine(symbolTtradeSubscription.Error.Message);
         }
-        public class BinanceTrade:BinanceStreamTrade
+        public class BinanceTrade : BinanceStreamTrade
         {
-            
+
         }
         public void ProduceEvent(BinanceStreamTrade e)
-        {                       
+        {
             _producer.BeginProduce("socket", new Message<Null, string>
             {
                 Value = JsonConvert.SerializeObject((BinanceTrade)e)
@@ -45,15 +45,16 @@ namespace KafkaSocketTest.SocketListener
             // wait for up to 10 seconds for any inflight messages to be delivered.
             // p.Flush(TimeSpan.FromSeconds(10));
         }
-        public void ProduceEvent(BinanceStreamTick e)
-        {            
-            _producer.BeginProduce("socket", new Message<Null, string>
-            {
-                Value = JsonConvert.SerializeObject(e)
-            }, handler);
-            // wait for up to 10 seconds for any inflight messages to be delivered.
-            // p.Flush(TimeSpan.FromSeconds(10));
-        }
+        //public void ProduceEvent(BinanceStreamTick e)
+        //{   
+
+        //    _producer.BeginProduce("socket", new Message<Null, string>
+        //    {
+        //        Value = JsonConvert.SerializeObject(e)
+        //    }, handler);
+        //    // wait for up to 10 seconds for any inflight messages to be delivered.
+        //    // p.Flush(TimeSpan.FromSeconds(10));
+        //}
 
 
 

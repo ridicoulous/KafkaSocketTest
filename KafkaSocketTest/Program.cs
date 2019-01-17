@@ -9,10 +9,9 @@ namespace KafkaSocketTest
     {
         public static void Main(string[] args)
         {
-            Console.WriteLine("Starting...");
-            Thread.Sleep(300);
+            Console.WriteLine("Starting...");    
             var t = new SocketListener.SocketListener();
-            t.SubcribeToSocket("WAVESBTC");
+            t.Subcribe("WAVESBTC");
             Consume();
             Console.WriteLine("Consumed... PAK, pls");
           //  Console.ReadLine();
@@ -44,8 +43,8 @@ namespace KafkaSocketTest
 
                 while (consuming)
                 {
-                    if (Console.ReadKey().Key == ConsoleKey.Escape)
-                        break;                        
+                    //if (Console.ReadKey().Key == ConsoleKey.Escape)
+                    //    break;                        
                     try
                     {
                         var cr = c.Consume();
