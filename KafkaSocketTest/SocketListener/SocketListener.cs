@@ -24,18 +24,14 @@ namespace KafkaSocketTest.SocketListener
         }
         public void Void(DeliveryReportResult<Null, string> r)
         {
-            if (r.Error.IsError)
-            {
-                Console.WriteLine($"Delivery Error: {r.Error.Reason}");
-            }
+            //if (r.Error.IsError)
+            //{
+            //    Console.WriteLine($"Delivery Error: {r.Error.Reason}");
+            //}
         }
         public void Subcribe(string pair)
         {
             var symbolTtradeSubscription = _socketClient.SubscribeToTradesStream(pair, _ => ProduceEvent(_));
-            if (symbolTtradeSubscription.Success)
-                Console.WriteLine(symbolTtradeSubscription.Data.Id);
-            else
-                Console.WriteLine(symbolTtradeSubscription.Error.Message);
             symbolTtradeSubscription.Data.ConnectionLost += Data_ConnectionLost;
 
         }
@@ -89,7 +85,7 @@ namespace KafkaSocketTest.SocketListener
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.ToString());
+              //  Console.WriteLine(ex.ToString());
             }
         }
 
