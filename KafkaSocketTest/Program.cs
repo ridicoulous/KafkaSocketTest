@@ -9,11 +9,11 @@ namespace KafkaSocketTest
     {
         public static void Main(string[] args)
         {
-            Console.WriteLine("Starting...");    
+        //    Console.WriteLine("Starting...");    
             var t = new SocketListener.SocketListener();
             t.Subcribe("WAVESBTC");
           //  Consume();
-            Console.WriteLine("Consumed... PAK, pls");
+           // Console.WriteLine("Consumed... PAK, pls");
             Console.ReadLine();
 
         }

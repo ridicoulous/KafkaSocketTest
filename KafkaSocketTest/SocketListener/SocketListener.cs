@@ -10,6 +10,7 @@ namespace KafkaSocketTest.SocketListener
 {
     public class SocketListener
     {
+        
         BinanceSocketClient _socketClient;
         BinanceClient _apiClient;
         Producer<Null, string> _producer = new Producer<Null, string>(new ProducerConfig { BootstrapServers = "localhost:9092" });
@@ -29,7 +30,7 @@ namespace KafkaSocketTest.SocketListener
         }
         public void Subcribe(string pair)
         {
-            var symbolTtradeSubscription = _socketClient.SubscribeToTradesStream(pair, _ => ProduceEvent(_));
+            var symbolTtradeSubscription = _socketClient.SubscribeToTradesStream(pair, _ => ProduceEvent(_));            
             if (symbolTtradeSubscription.Success)
                 Console.WriteLine(symbolTtradeSubscription.Data.Id);
             else
@@ -40,7 +41,7 @@ namespace KafkaSocketTest.SocketListener
 
         private void Data_ConnectionLost()
         {
-            Console.WriteLine("Connection lost. Reconnecting...");
+            //Console.WriteLine("Connection lost. Reconnecting...");
             Subcribe("WAVESBTC");
         }
 
