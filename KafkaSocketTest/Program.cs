@@ -13,9 +13,9 @@ namespace KafkaSocketTest
             var t = new SocketListener.SocketListener();
             t.Subcribe("WAVESBTC");
             //  Consume();
-            // Console.WriteLine("Consumed... PAK, pls");
-            //  Console.ReadLine();
-            while (true) { }
+            Console.WriteLine("Consumed... PAK, pls");
+            Console.ReadLine();
+          //  while (true) { }
 
         }
         //public static void Consume()
