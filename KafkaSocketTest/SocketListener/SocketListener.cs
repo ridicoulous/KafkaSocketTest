@@ -19,7 +19,7 @@ namespace KafkaSocketTest.SocketListener
         public SocketListener(string key = "vdSbR1a4CHxRK4HnpuKot6GwjYfgHoXJJqB0Ms2bkg9b1E8LC50GUca8ABRWiQmq", string secret = "Y0PfHmRxZLVz8ma4JNnTUGST4LcT6gsHQnYeXSIb8KyaF9vDkdyof44xKbehhCGF", string name = "Test", long channelId = -1001483025408)
         {
             Thread.CurrentThread.CurrentCulture = CultureInfo.GetCultureInfo("en-US");
-           // _apiClient = new BinanceClient(new BinanceClientOptions() { ApiCredentials = new CryptoExchange.Net.Authentication.ApiCredentials(key, secret) });
+            // _apiClient = new BinanceClient(new BinanceClientOptions() { ApiCredentials = new CryptoExchange.Net.Authentication.ApiCredentials(key, secret) });
             _socketClient = new BinanceSocketClient(new BinanceSocketClientOptions() { ApiCredentials = new CryptoExchange.Net.Authentication.ApiCredentials(key, secret) });
         }
         public void Void(DeliveryReportResult<Null, string> r)
@@ -32,7 +32,17 @@ namespace KafkaSocketTest.SocketListener
         public void Subcribe(string pair)
         {
             var symbolTtradeSubscription = _socketClient.SubscribeToTradesStream(pair, _ => ProduceEvent(_));
-            symbolTtradeSubscription.Data.ConnectionLost += Data_ConnectionLost;
+            if (symbolTtradeSubscription.Success)
+            {
+                symbolTtradeSubscription.Data.ConnectionLost += Data_ConnectionLost;
+                Console.WriteLine("Subcsribed succesfully");
+            }
+            else
+            {
+                Console.WriteLine(symbolTtradeSubscription.Error.Message);
+                Subcribe("WAVESBTC");
+            }
+
 
         }
 
@@ -70,16 +80,17 @@ namespace KafkaSocketTest.SocketListener
             [JsonProperty("T")]
             public DateTime TradeTime { get; set; }
             [JsonProperty("m")]
-            public int BuyerIsMaker { get; set; }           
-           
+            public int BuyerIsMaker { get; set; }
+
         }
         public void ProduceEvent(BinanceStreamTrade e)
         {
             try
             {
+                //Console.WriteLine(e.TradeTime);
                 _producer.BeginProduce("socket", new Message<Null, string>
                 {
-                    Value = JsonConvert.SerializeObject(new BinanceStreamClick(e) )
+                    Value = JsonConvert.SerializeObject(new BinanceStreamClick(e))
                 }, Void);
                 _producer.Flush(TimeSpan.FromSeconds(42));
             }
