@@ -13,13 +13,13 @@ namespace KafkaSocketTest.SocketListener
     {
 
         BinanceSocketClient _socketClient;
-        BinanceClient _apiClient;
+        //BinanceClient _apiClient;
         Producer<Null, string> _producer = new Producer<Null, string>(new ProducerConfig { BootstrapServers = "localhost:9092" });
         //Action<DeliveryReportResult<Null, string>> handler = r => Void(r);
-        public SocketListener(string key = "i8esSKM1QA6H7DgyCLPFDf17bPXRsWu7ZxBoD4uothQXwRGpvFkJeuOgRgp7cYNM", string secret = "iKWu94GjIwVLBoPORH0pt1sUuqf3MtJobGrQjdu4033kje43Nhe8tQnSK9pnXXgH", string name = "Test", long channelId = -1001483025408)
+        public SocketListener(string key = "vdSbR1a4CHxRK4HnpuKot6GwjYfgHoXJJqB0Ms2bkg9b1E8LC50GUca8ABRWiQmq", string secret = "Y0PfHmRxZLVz8ma4JNnTUGST4LcT6gsHQnYeXSIb8KyaF9vDkdyof44xKbehhCGF", string name = "Test", long channelId = -1001483025408)
         {
             Thread.CurrentThread.CurrentCulture = CultureInfo.GetCultureInfo("en-US");
-            _apiClient = new BinanceClient(new BinanceClientOptions() { ApiCredentials = new CryptoExchange.Net.Authentication.ApiCredentials(key, secret) });
+           // _apiClient = new BinanceClient(new BinanceClientOptions() { ApiCredentials = new CryptoExchange.Net.Authentication.ApiCredentials(key, secret) });
             _socketClient = new BinanceSocketClient(new BinanceSocketClientOptions() { ApiCredentials = new CryptoExchange.Net.Authentication.ApiCredentials(key, secret) });
         }
         public void Void(DeliveryReportResult<Null, string> r)
