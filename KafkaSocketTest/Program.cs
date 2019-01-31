@@ -16,7 +16,7 @@ namespace KafkaSocketTest
             Console.WriteLine("Consumed... PAK, pls");
             Console.ReadLine();
             
-            while (true) { Thread.Sleep(1000); }
+            while (true) {  }
 
         }
         //public static void Consume()
